@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import EditTodo from './EditTodo';
+
 const ListTodos = () => {
 	const [todos, setTodos] = useState([]);
 	const getTodos = async () => {
@@ -33,7 +35,7 @@ const ListTodos = () => {
 
 	return (
 		<>
-			<table class='table table-striped mt-5'>
+			<table className='table table-striped mt-5'>
 				<thead>
 					<tr>
 						<th scope='col'>#</th>
@@ -44,24 +46,20 @@ const ListTodos = () => {
 				</thead>
 				<tbody>
 					{todos.map((todo) => (
-						<>
-							<tr>
-								<td scope='row'>1</td>
-								<td key={todo.todo_id}>{todo.description}</td>
-								<td>
-									<button key={todo.todo_id}>edit</button>
-								</td>
-								<td>
-									<button
-										className='btn btn-danger'
-										onClick={() =>
-											handleDelete(todo.todo_id)
-										}>
-										Delete
-									</button>
-								</td>
-							</tr>
-						</>
+						<tr key={`id${todo.todo_id}`}>
+							<td scope='row'>{todo.todo_id}</td>
+							<td>{todo.description}</td>
+							<td>
+								<EditTodo todo={todo} />
+							</td>
+							<td>
+								<button
+									className='btn btn-danger'
+									onClick={() => handleDelete(todo.todo_id)}>
+									Delete
+								</button>
+							</td>
+						</tr>
 					))}
 				</tbody>
 			</table>
