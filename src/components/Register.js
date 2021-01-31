@@ -10,7 +10,7 @@ const Register = () => {
 	const [cpassword, setCpassword] = useState('');
 	const [errors, setErrors] = useState([]);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const error = [];
@@ -24,7 +24,6 @@ const Register = () => {
 
 		const expression = /\S+@\S+/;
 		var validEmail = expression.test(String(email).toLowerCase());
-		console.log(validEmail);
 
 		if (!validEmail || !email) {
 			error.push('email');
@@ -43,7 +42,24 @@ const Register = () => {
 		}
 
 		setErrors(error);
-		console.log(errors);
+
+		if (error.length === 0) {
+			try {
+				const body = { firstname, lastname, email, password };
+				const response = await fetch(
+					`http://localhost:8001/users/register/`,
+					{
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(body),
+					}
+				);
+				console.log(response);
+			} catch (error) {
+				console.error(error);
+				console.log('email is duplicated');
+			}
+		}
 	};
 
 	const handleError = (key) => {
